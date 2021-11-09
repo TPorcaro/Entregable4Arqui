@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -17,10 +18,10 @@ public class Compra {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@OneToMany(mappedBy = "compras")
-	private Cliente client;
+	@ManyToOne
+	private Cliente cliente;
 	private Timestamp fecha_compra;
-	private float precio_total;
+	private Float precio_total;
 	@OneToMany
 	private List<Pedido> pedidos;
 
@@ -28,29 +29,38 @@ public class Compra {
 		super();
 	}
 
-	public Compra(Cliente client, Timestamp fecha_compra, float precio_total, List<Pedido> pedidos) {
+	public Compra(Cliente cliente, Timestamp fecha_compra, List<Pedido> pedidos) {
 		super();
-		this.client = client;
+		this.cliente = cliente;
 		this.fecha_compra = fecha_compra;
-		this.precio_total = precio_total;
 		this.pedidos = pedidos;
+		this.precio_total = this.calcularPrecio();
 	}
 
-	public Compra(int id, Cliente client, Timestamp fecha_compra, float precio_total) {
+	private float calcularPrecio() {
+		float precioTotal = 0;
+		for (Pedido pedido : pedidos) {
+			precioTotal+= pedido.getProducto().getPrecio() * pedido.getCantidad();
+		}
+		return precioTotal;
+
+	}
+
+	public Compra(int id, Cliente cliente, Timestamp fecha_compra) {
 		super();
 		this.id = id;
-		this.client = client;
+		this.cliente = cliente;
 		this.fecha_compra = fecha_compra;
-		this.precio_total = precio_total;
+		this.precio_total = (float) 0;
 		this.pedidos = new ArrayList<Pedido>();
 	}
 
 	public Cliente getClient() {
-		return client;
+		return cliente;
 	}
 
-	public void setClient(Cliente client) {
-		this.client = client;
+	public void setClient(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Timestamp getFecha_compra() {
@@ -75,6 +85,7 @@ public class Compra {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
+		this.precio_total = this.calcularPrecio();
 	}
 
 	public int getId() {
@@ -83,7 +94,7 @@ public class Compra {
 
 	@Override
 	public String toString() {
-		return "Compra [id=" + id + ", client=" + client + ", fecha_compra=" + fecha_compra + ", precio_total="
+		return "Compra [id=" + id + ", cliente=" + cliente + ", fecha_compra=" + fecha_compra + ", precio_total="
 				+ precio_total + ", pedidos=" + pedidos + "]";
 	}
 

@@ -1,8 +1,8 @@
 package despensa.controller;
 
-import java.util.List;
-import java.util.Optional;
 
+
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,27 +20,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import despensa.DTO.ClienteConCompras;
-import despensa.entities.Cliente;
+import despensa.entities.Producto;
 import despensa.paging.Paginado;
-import despensa.services.ClienteService;
+import despensa.services.ProductoService;
 
 @RestController
-@RequestMapping("/clientes")
-public class ClienteController {
+@RequestMapping("/productos")
+public class ProductoController {
 
 	@Autowired
-	private ClienteService clienteService;
-	private static Logger LOG = LoggerFactory.getLogger(ClienteController.class);
+	private ProductoService productoService;
+	private static Logger LOG = LoggerFactory.getLogger(ProductoController.class);
+	
 	@GetMapping("")
-	public ResponseEntity<Paginado<Cliente>> getAll(
+	public ResponseEntity<Paginado<Producto>> getAll(
 			@RequestParam(name="page", defaultValue="0")int page,
 			@RequestParam(name="size", defaultValue="10")int size){
 		try {
-			Page<Cliente> clientes = this.clienteService.getAll(page,size);
-			if(!clientes.isEmpty()) {
-				Paginado<Cliente> paginadoClientes = new Paginado<Cliente>(clientes.getContent(), page, clientes.getSize(), size);
-				return new ResponseEntity<Paginado<Cliente>>(paginadoClientes ,HttpStatus.OK);
+			Page<Producto> productos = this.productoService.getAll(page,size);
+			if(!productos.isEmpty()) {
+				Paginado<Producto> paginadoCompras = new Paginado<Producto>(productos.getContent(), page, productos.getSize(), size);
+				return new ResponseEntity<Paginado<Producto>>(paginadoCompras ,HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
@@ -49,11 +49,11 @@ public class ClienteController {
 		}
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> getCliente(@PathVariable("id") int id){
+	public ResponseEntity<Producto> getProducto(@PathVariable("id") int id){
 		try {
-			Optional<Cliente> cliente = this.clienteService.getById(id);
-			if(cliente.isPresent()) {
-				return new ResponseEntity<Cliente>(cliente.get(),HttpStatus.OK);
+			Optional<Producto> producto = this.productoService.getById(id);
+			if(producto.isPresent()) {
+				return new ResponseEntity<Producto>(producto.get(),HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
@@ -62,9 +62,9 @@ public class ClienteController {
 		}
 	}
 	@PostMapping("")
-	public ResponseEntity<Cliente> addCliente(@RequestBody Cliente c){
+	public ResponseEntity<Producto> addProducto(@RequestBody Producto c){
 		try {
-			boolean ok = this.clienteService.addCliente(c);
+			boolean ok = this.productoService.addProducto(c);
 			if(!ok) {
 				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 			}
@@ -75,26 +75,13 @@ public class ClienteController {
 		}
 	}
 	@PutMapping("")
-	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente c){
+	public ResponseEntity<Producto> updateProducto(@RequestBody Producto c){
 		try {
-			boolean ok = this.clienteService.updateCliente(c);
+			boolean ok = this.productoService.updateProducto(c);
 			if(!ok) {
 				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 			}
 			return new ResponseEntity<>(c, HttpStatus.OK);
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	@GetMapping("/reporte")
-	public ResponseEntity<List<ClienteConCompras>> generarReporteCliente(){
-		try {
-			List<ClienteConCompras> listaClienteConCompras = this.clienteService.generarReporteCliente();
-			if(!listaClienteConCompras.isEmpty()) {
-				return new ResponseEntity<>(listaClienteConCompras, HttpStatus.OK);
-			}
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

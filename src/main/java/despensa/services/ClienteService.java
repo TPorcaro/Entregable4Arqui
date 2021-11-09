@@ -1,5 +1,6 @@
 package despensa.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import despensa.DTO.ClienteConCompras;
 import despensa.entities.Cliente;
 import despensa.repositories.ClienteRepository;
 
@@ -36,12 +38,15 @@ public class ClienteService {
 		Cliente cliente = this.clientesRepo.getById(c.getId());
 		cliente.setNombre(c.getNombre());
 		cliente.setApellido(c.getApellido());
-		cliente.setCompras(c.getCompras());
 		Cliente persistedCliente = this.clientesRepo.save(cliente);
 		if(persistedCliente != null) {
 			return true;
 		}
 		return false;
+	}
+
+	public List<ClienteConCompras> generarReporteCliente() {
+		return this.clientesRepo.generarReporteCliente();
 	}
 	
 }

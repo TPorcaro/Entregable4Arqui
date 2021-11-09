@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import despensa.DTO.Venta;
 import despensa.entities.Compra;
 import despensa.paging.Paginado;
 import despensa.services.CompraService;
@@ -67,7 +68,7 @@ public class CompraController {
 		}
 	}
 	@PostMapping("")
-	public ResponseEntity<EntityModel<Compra>> addCliente(@RequestBody Compra c){
+	public ResponseEntity<EntityModel<Compra>> addCompra(@RequestBody Compra c){
 		try {
 			boolean ok = this.compraService.addCompra(c);
 			if(!ok) {
@@ -80,13 +81,26 @@ public class CompraController {
 		}
 	}
 	@PutMapping("")
-	public ResponseEntity<EntityModel<Compra>> updateCliente(@RequestBody Compra c){
+	public ResponseEntity<EntityModel<Compra>> updateCompra(@RequestBody Compra c){
 		try {
 			boolean ok = this.compraService.updateCompra(c);
 			if(!ok) {
 				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 			}
 			return new ResponseEntity<>(getEm(c), HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	@GetMapping("/reporte")
+	public ResponseEntity<List<Venta>> generarReporteVentas(){
+		try {
+			List<Venta> ventas = this.compraService.generarReporteVentas();
+			if(!ventas.isEmpty()) {
+				return new ResponseEntity<List<Venta>>(ventas, HttpStatus.ACCEPTED);
+			}
+			return new ResponseEntity<List<Venta>>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

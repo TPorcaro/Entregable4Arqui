@@ -1,5 +1,6 @@
 package despensa.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import despensa.DTO.Venta;
+import despensa.entities.Cliente;
 import despensa.entities.Compra;
 import despensa.repositories.CompraRepository;
-
 @Service
 public class CompraService {
 
@@ -25,9 +27,9 @@ public class CompraService {
 	}
 
 	public boolean addCompra(Compra c) {
-		Compra compra = this.compraRepo.save(c);
-		if(compra != null) {
-			return true;
+		Cliente clienteDueñoCompra = c.getClient();	
+		if(clientePuedeSeguirComprando(clienteDueñoCompra)) {
+			return this.compraRepo.save(c) != null;
 		}
 		return false;
 	}
@@ -42,6 +44,17 @@ public class CompraService {
 			return true;
 		}
 		return false;
+	}
+	private boolean clientePuedeSeguirComprando(Cliente c){
+		List<Compra> comprasCliente = this.compraRepo.getComprasByCliente(c.getId());
+		if(comprasCliente.size() >= 3) {
+			return false;
+		}
+		return true;
+	}
+
+	public List<Venta> generarReporteVentas() {
+		return this.compraRepo.generarReporteVentas();
 	}
 	
 }

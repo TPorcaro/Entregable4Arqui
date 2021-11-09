@@ -1,12 +1,10 @@
 package despensa.entities;
 
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Cliente {
@@ -16,18 +14,15 @@ public class Cliente {
 	private int id;
 	private String nombre;
 	private String apellido;
-	@ManyToOne
-	private List<Compra> compras;
 
 	public Cliente() {
 		super();
 	}
 
-	public Cliente(String nombre, String apellido, List<Compra> compras) {
+	public Cliente(String nombre, String apellido) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.compras = compras;
 	}
 
 	public String getNombre() {
@@ -46,21 +41,13 @@ public class Cliente {
 		this.apellido = apellido;
 	}
 
-	public List<Compra> getCompras() {
-		return compras;
-	}
-
-	public void setCompras(List<Compra> compras) {
-		this.compras = compras;
-	}
-
 	public int getId() {
 		return id;
 	}
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", compras=" + compras + "]";
+		return "Cliente [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido +  "]";
 	}
 
 }
