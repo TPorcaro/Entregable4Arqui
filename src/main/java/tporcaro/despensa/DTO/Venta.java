@@ -2,9 +2,13 @@ package tporcaro.despensa.DTO;
 
 import java.util.Date;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class Venta {
 
+	@ApiModelProperty(notes = "Fecha",name = "fecha")
 	private Date fecha;
+	@ApiModelProperty(notes = "Cantidad total vendida",name = "vendidoTotal")
 	private double vendidoTotal;
 	
 	public Venta() {

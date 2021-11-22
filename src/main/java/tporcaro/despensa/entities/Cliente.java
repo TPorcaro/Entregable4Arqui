@@ -6,13 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@ApiModelProperty(notes = "ID del cliente",name = "id")
 	private int id;
+	@ApiModelProperty(notes = "Nombre del cliente",name = "nombre")
 	private String nombre;
+	@ApiModelProperty(notes = "Apellido del cliente",name = "apellido")
 	private String apellido;
 
 	public Cliente() {

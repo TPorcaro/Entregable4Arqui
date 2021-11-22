@@ -40,5 +40,8 @@ public class PedidoService {
 		}
 		return false;
 	}
+	public void vaciarPedido() {
+		this.pedidoRepo.deleteAll();
+	}
 
 }

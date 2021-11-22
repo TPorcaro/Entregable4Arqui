@@ -6,13 +6,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@ApiModelProperty(notes = "Id del pedido",name = "id")
 	private int id;
 	@ManyToOne
+	@ApiModelProperty(notes = "Producto que tiene el pedido",name = "producto")
 	private Producto producto;
+	@ApiModelProperty(notes = "Cantidad que tiene el pedido",name = "cantidad")
 	private int cantidad;
 
 	public Pedido() {

@@ -27,7 +27,6 @@ public class CompraService {
 	}
 
 	public boolean addCompra(Compra c) {
-		System.out.println(c);
 		Cliente clienteDueñoCompra = c.getCliente();
 		c.reCalcularPrecio();
 		if(clientePuedeSeguirComprando(clienteDueñoCompra)) {
@@ -57,6 +56,9 @@ public class CompraService {
 
 	public List<Venta> generarReporteVentas() {
 		return this.compraRepo.generarReporteVentas();
+	}
+	public void vaciarCompra() {
+		this.compraRepo.deleteAll();
 	}
 	
 }

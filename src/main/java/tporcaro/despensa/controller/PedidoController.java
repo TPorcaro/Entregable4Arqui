@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import tporcaro.despensa.entities.Pedido;
 import tporcaro.despensa.paging.Paginado;
 import tporcaro.despensa.services.PedidoService;
@@ -23,12 +27,19 @@ import tporcaro.despensa.services.PedidoService;
 
 @RestController
 @RequestMapping("/pedidos")
+@Api(value = "PedidoController", description = "Controlador REST del Pedido")
 public class PedidoController {
 	
 	@Autowired
 	private PedidoService pedidoService;
 	private static Logger LOG = LoggerFactory.getLogger(PedidoController.class);
 	
+	@ApiOperation(value = "Obtiene un paginado de Pedidos", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@GetMapping("")
 	public ResponseEntity<Paginado<Pedido>> getAll(
 			@RequestParam(name="page", defaultValue="0")int page,
@@ -45,6 +56,12 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@ApiOperation(value = "Obtiene un pedido por su id", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@GetMapping("/{id}")
 	public ResponseEntity<Pedido> getPedido(@PathVariable("id") int id){
 		try {
@@ -58,6 +75,12 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@ApiOperation(value = "Crea un pedido", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 406, message = "Not Acceptable"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@PostMapping("")
 	public ResponseEntity<Pedido> addPedido(@RequestBody Pedido p){
 		try {
@@ -71,6 +94,12 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@ApiOperation(value = "Actualiza un pedido", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 406, message = "Not Acceptable"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@PutMapping("")
 	public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido p){
 		try {

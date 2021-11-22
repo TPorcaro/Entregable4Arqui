@@ -17,7 +17,9 @@ public class ProductoService {
 
 	public boolean updateProducto(Producto c) {
 		Producto producto = this.productoRepo.getById(c.getId());
-		
+		producto.setNombre(c.getNombre());
+		producto.setPrecio(c.getPrecio());
+		producto.setStock(c.getStock());
 		Producto persistedproducto = this.productoRepo.save(producto);
 		if(persistedproducto != null) {
 			return true;
@@ -40,6 +42,9 @@ public class ProductoService {
 	public Producto getProductoMasVendido() {
 		List<Producto> List = this.productoRepo.getProductoMasVendido();
 		return List.get(0);
+	}
+	public Producto getByName(String name) {
+		return this.productoRepo.getByName(name);
 	}
 
 }

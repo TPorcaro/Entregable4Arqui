@@ -16,19 +16,25 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
 public class Compra {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@ApiModelProperty(notes = "ID de la compra",name = "id")
 	private int id;
-
 	@ManyToOne(cascade=CascadeType.MERGE)
+	@ApiModelProperty(notes = "Cliente de la compra",name = "cliente")
 	private Cliente cliente;
+	@ApiModelProperty(notes = "Fecha de la compra",name = "fecha_compra")
 	private Date fecha_compra;
+	@ApiModelProperty(notes = "Precio total de la compra",name = "precio_total")
 	private Float precio_total;
 	@ManyToMany(cascade=CascadeType.MERGE)
+	@ApiModelProperty(notes = "Pedidos de la compra",name = "pedidos")
 	private List<Pedido> pedidos;
 
 	public Compra() {
@@ -117,6 +123,10 @@ public class Compra {
 	public String toString() {
 		return "Compra [id=" + id + ", cliente=" + cliente + ", fecha_compra=" + fecha_compra + ", precio_total="
 				+ precio_total + ", pedidos=" + pedidos + "]";
+	}
+
+	public void setId(int i) {
+		this.id = i;
 	}
 
 }

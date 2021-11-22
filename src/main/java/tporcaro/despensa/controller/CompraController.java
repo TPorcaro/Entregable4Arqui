@@ -24,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import tporcaro.despensa.DTO.Venta;
 import tporcaro.despensa.entities.Compra;
 import tporcaro.despensa.paging.Paginado;
@@ -33,12 +37,19 @@ import tporcaro.despensa.services.CompraService;
 
 @RestController
 @RequestMapping("/compras")
+@Api(value = "CompraController", description = "Controlador REST de la Compra")
 public class CompraController {
 
 	@Autowired
 	private CompraService compraService;
 	private static Logger LOG = LoggerFactory.getLogger(CompraController.class);
 	
+	@ApiOperation(value = "Obtiene un paginado de compras", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@GetMapping("")
 	public ResponseEntity<Paginado<EntityModel<Compra>>> getAll(
 			@RequestParam(name="page", defaultValue="0")int page,
@@ -56,6 +67,13 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@ApiOperation(value = "Obtiene una compra por su id", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@GetMapping("/{id}")
 	public ResponseEntity<EntityModel<Compra>> getCompra(@PathVariable("id") int id){
 		try {
@@ -69,6 +87,12 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@ApiOperation(value = "Agrega una Compra", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 406, message = "Not Acceptable"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@PostMapping("")
 	public ResponseEntity<EntityModel<Compra>> addCompra(@RequestBody Compra c){
 		try {
@@ -82,6 +106,12 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@ApiOperation(value = "Actualiza una Compra", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 406, message = "Not Acceptable"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@PutMapping("")
 	public ResponseEntity<EntityModel<Compra>> updateCompra(@RequestBody Compra c){
 		try {
@@ -95,6 +125,12 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@ApiOperation(value = "Obtiene un reporte de ventas por dias", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 404, message = "Not Found"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
 	@GetMapping("/reporte")
 	public ResponseEntity<List<Venta>> generarReporteVentas(){
 		try {
