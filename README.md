@@ -40,7 +40,7 @@ Terminada la etapa de planificion se comenzo a desarrollar la implementacion del
 
 Una vez iniciado el desarrollo, se tomo como primer tarea implementar las entidades a utilizar en el proyecto, siguiendo el diagrama realizado en la planificacion y realizando un controlador para realizar el mapeo de rutas del servicio REST a cada entidad.
 
-Debido a que los clientes tenian un limite de compra de tres unidades de un mismo producto por dia, se implemento el patron repository y de esta manera realizar consultas mas complejas con el fin de saber si el cliente esta habilitado o no a seguir comprando.
+Debido a que los clientes tenian un limite de compra de tres unidades de un mismo producto por dia, se implemento el patron repository y de esta manera agrupar las consultas mas complejas a realizar, dentro de una clase capaz de gestionarlas.
 
 Para la obtencion de los reportes se propuso la implementacion de un patron de **Objeto de Transferencia de Datos** (*DTO*). De esta manera se podia almacenar datos conjuntos que pueden ser devueltos de la manera solicitada. Como fue el caso del reporte para los clientes, se pudo guardar el cliente y la cantidad total que gasto en sus compras unicamente desde una consulta a la tabla de compras, sin devolver los datos que no son necesarios.
 
@@ -59,3 +59,4 @@ Ademas, se pueden encontrar ejemplos de los modelos a utilizar en caso de querer
 
 En cuanto a los test de unidad, fueron realizados integrando la aplicacion ***JUnit*** a nuestro servicio.
 
+Realizando asi un testeo de cada servicio solicitado
