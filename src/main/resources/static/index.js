@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const getClientes = async (page, size) => {
     try {
       let response = await fetch(`${baseUrl}/clientes?page=${page}&size=${size}`);
-      console.log("response", response);
       let json = await response.json();
       CLIENTES = json.elements;
       cargarClientes();
@@ -43,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       inputNumber.id = p.id;
       input.value = p.id;
       label.innerHTML += `${p.nombre}   $ ${p.precio}   Stock:${p.stock}`;
+      div.classList.add("m-2", "d-flex", "justify-content-between", "align-items-center");
       div.appendChild(input);
       div.appendChild(label);
       div.appendChild(inputNumber);
@@ -59,10 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   let btnAltaCLiente = document.getElementById("btnAltaCliente");
-  console.log(btnAltaCLiente);
   btnAltaCLiente.addEventListener("click", async (e) => {
     e.preventDefault();
-    console.log(e)
     let name = document.querySelector("#nombreCliente").value
     let apellido = document.querySelector("#apellidoCliente").value
     let cliente = {
@@ -79,14 +77,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         body: JSON.stringify(cliente),
       });
       let responseJson = await response.json();
-      console.log(responseJson);
     } catch (error) {
       console.log(error);
     }
   });
 
   let btnAltaProducto = document.getElementById("btnAltaProducto");
-  console.log(btnAltaProducto);
   btnAltaProducto.addEventListener("click", async (e) => {
     let inputs = document.querySelectorAll(".inputToProducto");
     e.preventDefault();
@@ -96,7 +92,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     for (const elem of inputs) {
       if (elem.id || elem.id !== "") producto[elem.id] = elem.value;
     }
-    console.log(producto);
 
     try {
       let response = await fetch(`${baseUrl}/productos`, {
@@ -108,7 +103,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         body: JSON.stringify(producto),
       });
       let responseJson = await response.json();
-      console.log(responseJson);
     } catch (error) {
       console.log(error);
     }
@@ -153,9 +147,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             body: JSON.stringify(pedido),
           });
           let responseJson = await response.json();
-          console.log(responseJson);
           // Manejar respuesta pedido
-          arrayPedidos.push(responseJson.data)
+          arrayPedidos.push(responseJson);
         } catch (error) {
           console.log(error);
         }
@@ -174,10 +167,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         },
         body: JSON.stringify(compra),
       }).then((res) => {
-        // que se maneje
+        if(res.ok) {
+          alert("Compra realizada");
+          reimprimirReportes();
+        } else {
+          alert("Error al realizar la compra");
+        }
       });
     }
   });
+
+  let reimprimirReportes = () => {
+    reporteClienteConCompras();
+    reporteVentasPorDia();
+    obtenerProductoMasVendido();
+  };
 
   let parsearCliente = (cliente) => {
     return {
@@ -218,24 +222,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let reporteClienteConCompras = async () => {
     let tabla = document.getElementById("listaReporteCliente");
     tabla.innerHTML = "";
-    let clientesConCompras = await fetch(`${baseUrl}/clientes/reporte`);
+    let clientesConCompras = await fetch(`${baseUrl}/clientes/reporte`, {mode: 'cors'});
     let clientesConComprasJson = await clientesConCompras.json();
-    /* let clientesConComprasJson = [
-      {
-        cliente: {
-          nombre: "Juan",
-          apellido: "Perez",
-        },
-        montoTotal: "100",
-      },
-      {
-        cliente: {
-          nombre: "Juan",
-          apellido: "Carlos",
-        },
-        montoTotal: "345",
-      },
-    ] */
     clientesConComprasJson.forEach((cliente) => {
       let tr = document.createElement("tr");
       for (const key in cliente) {
@@ -247,7 +235,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             tr.appendChild(td2);
           }
         } else {
-          td.innerText = cliente[key];
+          if(typeof cliente[key] === 'number') {
+            td.innerText = cliente[key].toFixed(2);
+          } else {
+            td.innerText = cliente[key];
+          }
           tr.appendChild(td);
         }
       }
@@ -261,21 +253,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     tabla.innerHTML = "";
     let ventasPorDia = await fetch(`${baseUrl}/compras/reporte`);
     let ventasPorDiaJson = await ventasPorDia.json();
-    /* let ventasPorDiaJson = [
-      {
-        fecha: "2020-05-01",
-        montoTotal: "100",
-      },
-      {
-        fecha: "2020-05-02",
-        montoTotal: "345",
-      },
-    ] */
     ventasPorDiaJson.forEach((venta) => {
       let tr = document.createElement("tr");
       for (const key in venta) {
         let td = document.createElement("td");
-        td.innerText = venta[key];
+        if(typeof venta[key] === 'number') {
+          td.innerText = venta[key].toFixed(2);
+        } else {
+          td.innerText = venta[key];
+        }
         tr.appendChild(td);
       }
       tabla.appendChild(tr);
@@ -285,25 +271,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let obtenerProductoMasVendido = async () => {
     let div = document.getElementById("productoMasVendido");
+    div.innerHTML = "";
     let productoMasVendido = await fetch(`${baseUrl}/productos/mas-vendido`);
     let productoMasVendidoJson = await productoMasVendido.json();
-    /* let productoMasVendidoJson = {
-      producto: {
-        nombre: "Leche",
-        precio: "100",
-      },
-      cantidad: "10",
-    }; */
     for (const key in productoMasVendidoJson) {
-      let span = document.createElement("span");
-      span.classList.add("col");
-      if (typeof productoMasVendidoJson[key] === 'object') {
-        for (const key2 in productoMasVendidoJson[key]) {
-          span.innerText = productoMasVendidoJson[key].nombre;            
-          div.appendChild(span);
-        }
-      } else {
-        span.innerText = productoMasVendidoJson[key];
+      if(key!=='id') {
+        let span = document.createElement("span");
+        span.classList.add("col");
+        span.innerText = `${key.toUpperCase()}: ${typeof productoMasVendidoJson[key] === 'number' ? productoMasVendidoJson[key].toFixed(2) : productoMasVendidoJson[key]}`;
         div.appendChild(span);
       }
     }
