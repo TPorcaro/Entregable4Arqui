@@ -59,4 +59,12 @@ Ademas, se pueden encontrar ejemplos de los modelos a utilizar en caso de querer
 
 En cuanto a los test de unidad, fueron realizados integrando la aplicacion ***JUnit*** a nuestro servicio.
 
-Realizando asi un testeo de cada servicio solicitado
+Realizando asi un testeo de cada servicio solicitado, manteniendo un orden para llevar a cabo estas pruebas en una clase separada para cada uno. Testeando de esta manera cada metodo implementado por separado y en orden para no generar conflicto entre los mismos.
+
+### Conclusion
+
+Al llegar al final de la etapa de desarrollo pudimos obtener un servicio REST funcional y una aplicacion Web conectada al mismo, pudiendo visualizar de manera grafica los datos que se transferian, asi como manipular las distintas entidades soilcitadas por la catedra.
+
+Una vez terminados los testeos, tambien se decidio incorporar un diagrama de solucion del sistema.
+
+![Diagrama Solucion - Entregable - Arquitecturas Web](./diagramas/Diagrama-Solucion.png)
