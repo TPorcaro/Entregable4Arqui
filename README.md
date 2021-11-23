@@ -63,7 +63,7 @@ Realizando asi un testeo de cada servicio solicitado, manteniendo un orden para 
 
 ### Conclusion
 
-Al llegar al final de la etapa de desarrollo pudimos obtener un servicio REST funcional y una aplicacion Web conectada al mismo, pudiendo visualizar de manera grafica los datos que se transferian, asi como manipular las distintas entidades soilcitadas por la catedra.
+Al llegar al final de la etapa de desarrollo pudimos obtener un servicio REST funcional y una aplicacion Web conectada al mismo, pudiendo visualizar de manera grafica los datos que se transferian, asi como manipular las distintas entidades solicitadas por la catedra.
 
 Una vez terminados los testeos, tambien se decidio incorporar un diagrama de solucion del sistema.
 
