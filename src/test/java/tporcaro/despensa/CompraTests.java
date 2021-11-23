@@ -10,6 +10,8 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import tporcaro.despensa.services.PedidoService;
 import tporcaro.despensa.services.ProductoService;
 
 @SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 public class CompraTests {
 
 	@Autowired
@@ -49,7 +52,7 @@ public class CompraTests {
 		Compra compra = new Compra(clienteService.getById(6).get(),Date.valueOf("2021-11-21"), pedidos);
 		compra.setId(160);
 		Assertions.assertEquals(compraService.updateCompra(compra), true);
-		Assertions.assertEquals(compraService.getById(160).get().getPrecio_total(), compra.getPrecio_total());
+		Assertions.assertEquals(compraService.getById(160).get(), compra);
 	}
 	@Test
 	@Order(3)
@@ -60,8 +63,15 @@ public class CompraTests {
 			Assertions.assertEquals(compra.getClass(), Compra.class);
 		}
 	}
+	
 	@Test
 	@Order(4)
+	void deleteCompra() {
+		Compra aBorrarCompra = compraService.getById(152).get();
+		Assertions.assertEquals(compraService.removeCompra(aBorrarCompra), true);
+	}
+	@Test
+	@Order(5)
 	void addCompra() {
 		compraService.vaciarCompra();
 		pedidoService.vaciarPedido();
@@ -81,7 +91,7 @@ public class CompraTests {
 		Assertions.assertEquals(compraService.addCompra(compra4), false);
 	}
 	@Test
-	@Order(5)
+	@Order(6)
 	void reporteVentas() {
 		compraService.vaciarCompra();
 		pedidoService.vaciarPedido();

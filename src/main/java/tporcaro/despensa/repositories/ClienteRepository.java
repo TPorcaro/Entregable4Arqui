@@ -14,5 +14,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 			+ "FROM Compra c GROUP BY(c.cliente) ORDER BY (SUM(c.precio_total+0)) DESC")
 	List<ClienteConCompras> generarReporteCliente();
 
+	@Query("SELECT c FROM Cliente c WHERE c.nombre = :name")
+	Cliente getByName(String name);
 
 }

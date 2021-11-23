@@ -32,7 +32,7 @@ public class Compra {
 	@ApiModelProperty(notes = "Fecha de la compra",name = "fecha_compra")
 	private Date fecha_compra;
 	@ApiModelProperty(notes = "Precio total de la compra",name = "precio_total")
-	private Float precio_total;
+	private double precio_total;
 	@ManyToMany(cascade=CascadeType.MERGE)
 	@ApiModelProperty(notes = "Pedidos de la compra",name = "pedidos")
 	private List<Pedido> pedidos;
@@ -59,14 +59,14 @@ public class Compra {
 
 	public void reCalcularPrecio() {
 		if(this.pedidos != null) {	
-			float precioTotal = 0;
+			double precioTotal = 0;
 			for (Pedido pedido : pedidos) {
 				precioTotal+= (pedido.getProducto().getPrecio() * pedido.getCantidad());
 			}
 			this.precio_total = precioTotal;
 		}
 		else
-			this.precio_total = (float) 0;
+			this.precio_total =  0;
 		
 
 	}
@@ -96,11 +96,11 @@ public class Compra {
 		this.fecha_compra = fecha_compra;
 	}
 
-	public float getPrecio_total() {
+	public double getPrecio_total() {
 		return precio_total;
 	}
 
-	public void setPrecio_total(float precio_total) {
+	public void setPrecio_total(double precio_total) {
 		this.precio_total = precio_total;
 	}
 
@@ -129,4 +129,26 @@ public class Compra {
 		this.id = i;
 	}
 
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Compra other = (Compra) obj;
+		return this.id == other.id;
+	}
+
+
+
+	
+
+	
+
+	
+
+	
 }

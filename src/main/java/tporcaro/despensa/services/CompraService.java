@@ -57,6 +57,10 @@ public class CompraService {
 	public List<Venta> generarReporteVentas() {
 		return this.compraRepo.generarReporteVentas();
 	}
+	public boolean removeCompra(Compra c) {
+		 this.compraRepo.delete(c);
+		 return !this.compraRepo.existsById(c.getId());
+	}
 	public void vaciarCompra() {
 		this.compraRepo.deleteAll();
 	}

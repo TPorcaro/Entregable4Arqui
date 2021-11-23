@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,6 +111,25 @@ public class ClienteController {
 	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente c){
 		try {
 			boolean ok = this.clienteService.updateCliente(c);
+			if(!ok) {
+				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+			}
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	@ApiOperation(value = "Borra un cliente", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 406, message = "Not Acceptable"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
+	@DeleteMapping("")
+	public ResponseEntity<Cliente> deleteCliente(@RequestBody Cliente c){
+		try {
+			boolean ok = this.clienteService.removeCliente(c);
 			if(!ok) {
 				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 			}

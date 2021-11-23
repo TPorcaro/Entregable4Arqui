@@ -1,5 +1,12 @@
 package tporcaro.despensa;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -7,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
+import tporcaro.despensa.DTO.ClienteConCompras;
 import tporcaro.despensa.entities.Cliente;
 import tporcaro.despensa.entities.Compra;
 import tporcaro.despensa.entities.Pedido;
@@ -16,16 +24,9 @@ import tporcaro.despensa.services.CompraService;
 import tporcaro.despensa.services.PedidoService;
 import tporcaro.despensa.services.ProductoService;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-class ProductoTests {
+public class ClienteTests {
 
 	@Autowired
 	private ProductoService productoService;
@@ -36,40 +37,44 @@ class ProductoTests {
 	@Autowired
 	private ClienteService clienteService;
 	
-	
 	@Test
 	@Order(1)
-	void addProducto() {
-		Producto producto = new Producto("ProductoTest",500,10);
-		Assertions.assertEquals(productoService.addProducto(producto), true);
-		Assertions.assertEquals(productoService.getByName(producto.getNombre()).getNombre(), producto.getNombre());
+	void getClienteByID() {
+		Assertions.assertEquals(clienteService.getById(3).get().getId(), 3);
 	}
-	
 	@Test
 	@Order(2)
-	void getProductoByID() {
-		Assertions.assertEquals(productoService.getById(1).get().getId(), 1);
+	void updateCliente() {
+		Cliente cliente = new Cliente("test nombre","test apellido");
+		cliente.setId(3);
+		Assertions.assertEquals(clienteService.updateCliente(cliente), true);
+		Assertions.assertEquals(clienteService.getById(3).get(), cliente);
 	}
 	@Test
 	@Order(3)
-	void updateProducto() {
-		Producto producto = new Producto("nuevo nombre", 100,15);
-		producto.setId(1);
-		Assertions.assertEquals(productoService.updateProducto(producto), true);
-		Assertions.assertEquals(productoService.getById(1).get(), producto);
-	}
-	@Test
-	@Order(4)
 	void getAll() {
-		Page<Producto> page = productoService.getAll(0, 10);
-		List<Producto> productos = page.getContent();
-		for (Producto producto : productos) {
-			Assertions.assertEquals(producto.getClass(), Producto.class);
+		Page<Cliente> page = clienteService.getAll(0, 10);
+		List<Cliente> clientes = page.getContent();
+		for (Cliente cliente : clientes) {
+			Assertions.assertEquals(cliente.getClass(), Cliente.class);
 		}
 	}
 	@Test
+	@Order(4)
+	void addCliente() {
+		Cliente cliente = new Cliente("nombre cliente nuevo","apellido cliente nuevo");
+		Assertions.assertEquals(clienteService.addCliente(cliente), true);
+		Assertions.assertEquals(clienteService.getByName(cliente.getNombre()).getNombre(), cliente.getNombre());
+	}
+	@Test
 	@Order(5)
-	void ProductoMasVendido() {
+	void deleteCliente() {
+		Cliente aBorrarCliente = clienteService.getById(30).get();
+		Assertions.assertEquals(clienteService.removeCliente(aBorrarCliente), true);
+	}
+	@Test
+	@Order(6)
+	void reporteCliente() {
 		compraService.vaciarCompra();
 		pedidoService.vaciarPedido();
 		Producto producto1 = productoService.getById(1).get();
@@ -93,8 +98,10 @@ class ProductoTests {
 		Compra compra2 = new Compra(cliente2,dt, listPedido2);
 		compraService.addCompra(compra1);
 		compraService.addCompra(compra2);
-		Producto masVendidoProducto = productoService.getProductoMasVendido();
-		Assertions.assertEquals(masVendidoProducto, producto1);
+		List<ClienteConCompras> reporteClienteConCompras = clienteService.generarReporteCliente();
+		Assertions.assertEquals(reporteClienteConCompras.get(0).getCliente(), compra1.getCliente());
+		Assertions.assertEquals(reporteClienteConCompras.get(0).getMontoTotalCompras(), compra1.getPrecio_total());
+		Assertions.assertEquals(reporteClienteConCompras.get(1).getCliente(), compra2.getCliente());
+		Assertions.assertEquals(reporteClienteConCompras.get(1).getMontoTotalCompras(), compra2.getPrecio_total());
 	}
-
 }

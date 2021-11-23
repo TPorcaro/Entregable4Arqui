@@ -49,5 +49,13 @@ public class ClienteService {
 		List<ClienteConCompras> list = this.clientesRepo.generarReporteCliente();
 		return list;
 	}
+
+	public Cliente getByName(String nombre) {
+		return this.clientesRepo.getByName(nombre);
+	}
+	public boolean removeCliente(Cliente c) {
+		 this.clientesRepo.delete(c);
+		 return !this.clientesRepo.existsById(c.getId());
+	}
 	
 }
