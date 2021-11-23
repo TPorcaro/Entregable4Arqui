@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -109,6 +110,25 @@ public class ProductoController {
 	public ResponseEntity<Producto> updateProducto(@RequestBody Producto c){
 		try {
 			boolean ok = this.productoService.updateProducto(c);
+			if(!ok) {
+				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+			}
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	@ApiOperation(value = "Borra un producto", response = ResponseEntity.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 406, message = "Not Acceptable"),
+			@ApiResponse(code = 200, message = "Internal Server Error")			
+	})
+	@DeleteMapping("")
+	public ResponseEntity<Producto> deleteProducto(@RequestBody Producto c){
+		try {
+			boolean ok = this.productoService.removeProducto(c);
 			if(!ok) {
 				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 			}

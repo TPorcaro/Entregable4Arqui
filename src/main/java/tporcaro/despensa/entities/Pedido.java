@@ -1,10 +1,13 @@
 package tporcaro.despensa.entities;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -54,5 +57,22 @@ public class Pedido {
 	public String toString() {
 		return "Pedido [id=" + id + ", producto=" + producto + ", cantidad=" + cantidad + "]";
 	}
+
+	public void setId(int i) {
+		this.id = i;	
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pedido other = (Pedido) obj;
+		return cantidad == other.cantidad && id == other.id && Objects.equals(producto, other.producto);
+	}
+	
 
 }

@@ -46,5 +46,9 @@ public class ProductoService {
 	public Producto getByName(String name) {
 		return this.productoRepo.getByName(name);
 	}
+	public boolean removeProducto(Producto c) {
+		 this.productoRepo.delete(c);
+		 return !this.productoRepo.existsById(c.getId());
+	}
 
 }
