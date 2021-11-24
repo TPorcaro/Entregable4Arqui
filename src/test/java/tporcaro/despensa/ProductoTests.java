@@ -23,20 +23,34 @@ import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
+
+/**
+ * The Class ProductoTests.
+ */
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 class ProductoTests {
 
+	/** The producto service. */
 	@Autowired
 	private ProductoService productoService;
+	
+	/** The compra service. */
 	@Autowired
 	private CompraService compraService;
+	
+	/** The pedido service. */
 	@Autowired
 	private PedidoService pedidoService;
+	
+	/** The cliente service. */
 	@Autowired
 	private ClienteService clienteService;
 	
 	
+	/**
+	 * Test Add Producto.
+	 */
 	@Test
 	@Order(1)
 	void addProducto() {
@@ -45,11 +59,18 @@ class ProductoTests {
 		Assertions.assertEquals(productoService.getByName(producto.getNombre()).getNombre(), producto.getNombre());
 	}
 	
+	/**
+	 * Test Producto by ID.
+	 */
 	@Test
 	@Order(2)
 	void getProductoByID() {
 		Assertions.assertEquals(productoService.getById(1).get().getId(), 1);
 	}
+	
+	/**
+	 * Test Update producto.
+	 */
 	@Test
 	@Order(3)
 	void updateProducto() {
@@ -58,6 +79,10 @@ class ProductoTests {
 		Assertions.assertEquals(productoService.updateProducto(producto), true);
 		Assertions.assertEquals(productoService.getById(1).get(), producto);
 	}
+	
+	/**
+	 * Test Gets all Producto.
+	 */
 	@Test
 	@Order(4)
 	void getAll() {
@@ -67,6 +92,10 @@ class ProductoTests {
 			Assertions.assertEquals(producto.getClass(), Producto.class);
 		}
 	}
+	
+	/**
+	 * Test Producto mas vendido.
+	 */
 	@Test
 	@Order(5)
 	void ProductoMasVendido() {

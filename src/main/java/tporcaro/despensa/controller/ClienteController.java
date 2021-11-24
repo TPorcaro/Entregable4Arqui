@@ -1,3 +1,4 @@
+
 package tporcaro.despensa.controller;
 
 import java.util.List;
@@ -31,15 +32,28 @@ import tporcaro.despensa.paging.Paginado;
 import tporcaro.despensa.services.ClienteService;
 
 
+/**
+ * The Class ClienteController.
+ */
 @RestController
 @RequestMapping("/clientes")
 @Api(value = "ClienteController", description = "Controlador REST del cliente")
 public class ClienteController {
 
+	/** The cliente service. */
 	@Autowired
 	private ClienteService clienteService;
+	
+	/** The log. */
 	private static Logger LOG = LoggerFactory.getLogger(ClienteController.class);
 	
+	/**
+	 * Gets all Cliente.
+	 *
+	 * @param page the page
+	 * @param size the size
+	 * @return Paginado of Cliente
+	 */
 	@ApiOperation(value = "Obtiene un paginado de clientes", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -62,6 +76,13 @@ public class ClienteController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Gets a Cliente.
+	 *
+	 * @param id the id
+	 * @return Cliente
+	 */
 	@ApiOperation(value = "Obtiene un cliente por su id", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -82,6 +103,12 @@ public class ClienteController {
 		}
 	}
 	
+	/**
+	 * Adds a Cliente.
+	 *
+	 * @param c Cliente
+	 * @return added Cliente
+	 */
 	@ApiOperation(value = "Crea un cliente", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Created"),
@@ -101,6 +128,13 @@ public class ClienteController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Update cliente.
+	 *
+	 * @param c Cliente
+	 * @return updated Cliente
+	 */
 	@ApiOperation(value = "Actualiza un cliente", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -120,6 +154,13 @@ public class ClienteController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Delete cliente.
+	 *
+	 * @param c CLiente
+	 * @return deleted Cliente
+	 */
 	@ApiOperation(value = "Borra un cliente", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -139,6 +180,12 @@ public class ClienteController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Generar reporte cliente.
+	 *
+	 * @return list of ClienteConCompra 
+	 */
 	@ApiOperation(value = "Devuelve un reporte donde se obtiene los clientes con "
 			+ "su cantidad total de compras"
 			, response = ResponseEntity.class)

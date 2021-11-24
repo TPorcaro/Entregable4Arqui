@@ -25,15 +25,28 @@ import tporcaro.despensa.paging.Paginado;
 import tporcaro.despensa.services.PedidoService;
 
 
+/**
+ * The Class PedidoController.
+ */
 @RestController
 @RequestMapping("/pedidos")
 @Api(value = "PedidoController", description = "Controlador REST del Pedido")
 public class PedidoController {
 	
+	/** The pedido service. */
 	@Autowired
 	private PedidoService pedidoService;
+	
+	/** The log. */
 	private static Logger LOG = LoggerFactory.getLogger(PedidoController.class);
 	
+	/**
+	 * Gets all Pedido.
+	 *
+	 * @param page the page
+	 * @param size the size
+	 * @return all Pedido
+	 */
 	@ApiOperation(value = "Obtiene un paginado de Pedidos", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -56,6 +69,13 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Gets a pedido.
+	 *
+	 * @param id the id
+	 * @return the Pedido
+	 */
 	@ApiOperation(value = "Obtiene un pedido por su id", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -75,6 +95,13 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Adds a Pedido.
+	 *
+	 * @param p Pedido
+	 * @return added Pedido
+	 */
 	@ApiOperation(value = "Crea un pedido", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Created"),
@@ -94,6 +121,13 @@ public class PedidoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Update Pedido.
+	 *
+	 * @param p Pedido
+	 * @return updated Pedido
+	 */
 	@ApiOperation(value = "Actualiza un pedido", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),

@@ -24,24 +24,41 @@ import tporcaro.despensa.services.CompraService;
 import tporcaro.despensa.services.PedidoService;
 import tporcaro.despensa.services.ProductoService;
 
+/**
+ * The Class ClienteTests.
+ */
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 public class ClienteTests {
 
+	/** The producto service. */
 	@Autowired
 	private ProductoService productoService;
+	
+	/** The compra service. */
 	@Autowired
 	private CompraService compraService;
+	
+	/** The pedido service. */
 	@Autowired
 	private PedidoService pedidoService;
+	
+	/** The cliente service. */
 	@Autowired
 	private ClienteService clienteService;
 	
+	/**
+	 * Test the Cliente by ID.
+	 */
 	@Test
 	@Order(1)
 	void getClienteByID() {
 		Assertions.assertEquals(clienteService.getById(3).get().getId(), 3);
 	}
+	
+	/**
+	 * Test Update Cliente.
+	 */
 	@Test
 	@Order(2)
 	void updateCliente() {
@@ -50,6 +67,10 @@ public class ClienteTests {
 		Assertions.assertEquals(clienteService.updateCliente(cliente), true);
 		Assertions.assertEquals(clienteService.getById(3).get(), cliente);
 	}
+	
+	/**
+	 * Test Get all Cliente.
+	 */
 	@Test
 	@Order(3)
 	void getAll() {
@@ -59,6 +80,10 @@ public class ClienteTests {
 			Assertions.assertEquals(cliente.getClass(), Cliente.class);
 		}
 	}
+	
+	/**
+	 * Test Add Cliente.
+	 */
 	@Test
 	@Order(4)
 	void addCliente() {
@@ -66,12 +91,20 @@ public class ClienteTests {
 		Assertions.assertEquals(clienteService.addCliente(cliente), true);
 		Assertions.assertEquals(clienteService.getByName(cliente.getNombre()).getNombre(), cliente.getNombre());
 	}
+	
+	/**
+	 * Test Delete cliente.
+	 */
 	@Test
 	@Order(5)
 	void deleteCliente() {
 		Cliente aBorrarCliente = clienteService.getById(30).get();
 		Assertions.assertEquals(clienteService.removeCliente(aBorrarCliente), true);
 	}
+	
+	/**
+	 * Test Reporte cliente.
+	 */
 	@Test
 	@Order(6)
 	void reporteCliente() {

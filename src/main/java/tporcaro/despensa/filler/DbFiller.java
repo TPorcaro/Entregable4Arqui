@@ -20,12 +20,30 @@ import tporcaro.despensa.services.CompraService;
 import tporcaro.despensa.services.PedidoService;
 import tporcaro.despensa.services.ProductoService;
 
+/**
+ * The Class DbFiller.
+ */
 @Configuration
 public class DbFiller {
 
+	/** The productos. */
 	private List<Producto> productos;
+	
+	/** The clientes. */
 	private List<Cliente> clientes;
+	
+	/** The pedidos. */
 	private List<Pedido> pedidos;
+	
+	/**
+	 * Inits the db.
+	 *
+	 * @param compra the compra
+	 * @param cliente the cliente
+	 * @param pedido the pedido
+	 * @param producto the producto
+	 * @return the command line runner
+	 */
 	@Bean
 	public CommandLineRunner initDb(CompraService compra, ClienteService cliente, PedidoService pedido, ProductoService producto) {
 		return args-> {

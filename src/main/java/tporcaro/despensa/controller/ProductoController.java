@@ -31,15 +31,28 @@ import tporcaro.despensa.services.ProductoService;
 
 
 
+/**
+ * The Class ProductoController.
+ */
 @RestController
 @RequestMapping("/productos")
 @Api(value = "ProductoController", description = "Controlador REST del producto")
 public class ProductoController {
 
+	/** The producto service. */
 	@Autowired
 	private ProductoService productoService;
+	
+	/** The log. */
 	private static Logger LOG = LoggerFactory.getLogger(ProductoController.class);
 	
+	/**
+	 * Gets all Producto.
+	 *
+	 * @param page the page
+	 * @param size the size
+	 * @return all Producto
+	 */
 	@ApiOperation(value = "Obtiene un paginado de productos", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -62,6 +75,13 @@ public class ProductoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Gets a Producto.
+	 *
+	 * @param id the id
+	 * @return the Producto
+	 */
 	@ApiOperation(value = "Obtiene un producto por su id", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -81,6 +101,13 @@ public class ProductoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Adds a Producto.
+	 *
+	 * @param c Producto
+	 * @return added Producto
+	 */
 	@ApiOperation(value = "Crea un producto", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Created"),
@@ -100,6 +127,13 @@ public class ProductoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Update Producto.
+	 *
+	 * @param c Producto
+	 * @return updated Producto
+	 */
 	@ApiOperation(value = "Actualiza un producto", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -119,6 +153,13 @@ public class ProductoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Delete Producto.
+	 *
+	 * @param c Producto
+	 * @return deleted Producto
+	 */
 	@ApiOperation(value = "Borra un producto", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -138,6 +179,12 @@ public class ProductoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Gets most selled Producto.
+	 *
+	 * @return the most selled Producto
+	 */
 	@ApiOperation(value = "Obtiene el producto mas vendido", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),

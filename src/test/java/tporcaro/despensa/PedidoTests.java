@@ -11,25 +11,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 
-import tporcaro.despensa.entities.Compra;
 import tporcaro.despensa.entities.Pedido;
 import tporcaro.despensa.services.PedidoService;
 import tporcaro.despensa.services.ProductoService;
 
+
+/**
+ * The Class PedidoTests.
+ */
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 public class PedidoTests {
 
+	/** The producto service. */
 	@Autowired
 	private ProductoService productoService;
+	
+	/** The pedido service. */
 	@Autowired
 	private PedidoService pedidoService;
 	
+	/**
+	 * Test Gets Pedido by ID.
+	 */
 	@Test
 	@Order(1)
 	void getPedidoByID() {
 		Assertions.assertEquals(pedidoService.getById(2).get().getId(), 2);
 	}
+	
+	/**
+	 * Test Update Pedido.
+	 */
 	@Test
 	@Order(2)
 	void updatePedido() {
@@ -38,12 +51,20 @@ public class PedidoTests {
 		Assertions.assertEquals(pedidoService.updatePedido(pedido), true);
 		Assertions.assertEquals(pedidoService.getById(2).get(), pedido);
 	}
+	
+	/**
+	 * Test Add Pedido.
+	 */
 	@Test
 	@Order(3)
 	void addPedido() {
 		Pedido pedido = new Pedido(productoService.getById(4).get(),5);
 		Assertions.assertEquals(pedidoService.addPedido(pedido), true);
 	}
+	
+	/**
+	 * Test Gets all Pedido.
+	 */
 	@Test
 	@Order(4)
 	void getAll() {
