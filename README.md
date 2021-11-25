@@ -60,6 +60,7 @@ Ademas, se pueden encontrar ejemplos de los modelos a utilizar en caso de querer
 En cuanto a los test de unidad, fueron realizados integrando la aplicacion ***JUnit*** a nuestro servicio.
 
 Realizando asi un testeo de cada servicio solicitado, manteniendo un orden para llevar a cabo estas pruebas en una clase separada para cada uno. Testeando de esta manera cada metodo implementado por separado y en orden para no generar conflicto entre los mismos.
+***Si se desea correr los test de unidad*** se debera correr por separado.
 
 ### Conclusion
 

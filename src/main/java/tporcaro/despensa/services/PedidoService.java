@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import tporcaro.despensa.entities.Compra;
 import tporcaro.despensa.entities.Pedido;
 import tporcaro.despensa.repositories.PedidoRepository;
 
@@ -20,7 +19,7 @@ public class PedidoService {
 	/** The pedidoRepo. */
 	@Autowired
 	private PedidoRepository pedidoRepo;
-	
+
 	/**
 	 * Gets all Pedido.
 	 *
@@ -50,7 +49,7 @@ public class PedidoService {
 	 */
 	public boolean addPedido(Pedido p) {
 		Pedido pedido = this.pedidoRepo.save(p);
-		if(pedido != null) {
+		if (pedido != null) {
 			return true;
 		}
 		return false;
@@ -67,11 +66,12 @@ public class PedidoService {
 		pedido.setCantidad(p.getCantidad());
 		pedido.setProducto(p.getProducto());
 		Pedido persistedPedido = this.pedidoRepo.save(pedido);
-		if(persistedPedido != null) {
+		if (persistedPedido != null) {
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * Empty the table Pedido.
 	 */
