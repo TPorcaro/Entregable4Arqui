@@ -2,8 +2,10 @@ let CLIENTES = [];
 let COMPRAS = [];
 let PRODUCTOS = [];
 let CLIENTESTOTALES=[];
+
 let limitePaginadoCliente=false
 let limitePaginadoProducto=false
+let limitePaginadoCompras=false
 
 const baseUrl = "http://localhost:8080";
 document.addEventListener("DOMContentLoaded", async () => {
@@ -58,30 +60,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  const getCompras = async (page, size) => {
+    try { 
+      limitePaginadoCompras=false;
+      let response = await fetch(`${baseUrl}/compras?page=${page}&size=${size}`);
+      let json = await response.json();
+      json.elements.forEach ( async p =>{   
+          let compra = {
+            id: p.id,
+            cliente: p.cliente,
+            fecha_compra: p.fecha_compra,
+            montoTotal: p.precio_total
+          };
+          COMPRAS.push(compra)
+      })
+      }
+      catch (error) {
+       limitePaginadoCompras=true;
+      console.log(error);
+    }
+  };
+  
+
+  
+
   let cargarAcordion = () => {
     let lugar = document.querySelector(".acordionProductos");
     lugar.innerHTML=""
     PRODUCTOS.forEach((p) => {
-      // console.log(PRODUCTOS)
-      // let input = document.createElement("input");
-      // let inputNumber = document.createElement("input");
-      // let label = document.createElement("label");
-      // let div = document.createElement("div");
-      // input.type = "checkbox";
-      // inputNumber.type = "number";
-      // inputNumber.placeholder = "cantidad";
-      // inputNumber.id = p.id;
-      // input.value = p.id;
-      // label.innerHTML += `${p.nombre}   $ ${p.precio}   Stock:${p.stock}`;
-      // div.appendChild(input);
-      // div.appendChild(label);
-      // div.appendChild(inputNumber);
-      // lugar.appendChild(div);
-      ////////////////////////////////////////////////////////////////
       let tr = document.createElement("tr");
       let td = document.createElement("td");
       let input = document.createElement("input");
-      
       input.type = "checkbox";
       input.value = p.id;
       td.appendChild(input);
@@ -89,7 +98,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       for (const key in p) {
         if(key!=="id"){
           let td = document.createElement("td");
-          td.innerText = p[key];
+          
+          td.innerText = typeof p[key]=="number" ? p[key].toFixed(2):p[key];
           tr.appendChild(td);
         }
       }
@@ -103,23 +113,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   };
 
-  // let cargarDatos = document.querySelector("#btnCargarDatos");
-  // cargarDatos.addEventListener("click", async () => {
-  //   let page = document.querySelector("#paginaDatos").value;
-  //   let size = document.querySelector("#cantidadDatos").value;
-  //   getClientes(page, size);
-  //   getProductos(page, size);
-  // });
-  
-
-
   getClientes(0, 10,"a");
   getProductos(0, 10);
  
-
-
   let btnAltaCLiente = document.getElementById("btnAltaCliente");
-  // console.log(btnAltaCLiente);
+
   btnAltaCLiente.addEventListener("click", async (e) => {
     e.preventDefault();
     console.log(e)
@@ -141,13 +139,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       let responseJson = await response.json();
       getClientesTotales(0, 1000,"a");//actualiza el select de compras
       reporteClienteConCompras();
-      console.log(responseJson);
+      // console.log(responseJson);
     } catch (error) {
       console.log(error);
-   
     }
-    
-
   });
 
   let btnAltaProducto = document.getElementById("btnAltaProducto");
@@ -156,13 +151,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     let inputs = document.querySelectorAll(".inputToProducto");
     e.preventDefault();
     let producto = {
-
     };
     for (const elem of inputs) {
       if (elem.id || elem.id !== "") producto[elem.id] = elem.value;
     }
     console.log(producto);
-
     try {
       let response = await fetch(`${baseUrl}/productos`, {
         method: "POST",
@@ -196,7 +189,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     let arrayValues = [];
     let idCliente = document.getElementById("selectCliente").value;
     let cliente = CLIENTESTOTALES.find((cliente) => cliente.id === Number(idCliente));
-
     if(cliente) {
       productosSeleccionados.forEach((p) => {
         console.log(p)
@@ -227,13 +219,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           console.log(error);
         }
       });
-
       let compra = {
         cliente: cliente,
         fecha_compra: Date.now(),
         pedidos: arrayPedidos,
       };
-
       fetch(`${baseUrl}/compras`, {
         method: "POST",
         headers: {
@@ -276,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let tr = document.createElement("tr");
       for (const key in producto) {
         let td = document.createElement("td");
-        td.innerText = producto[key];
+        td.innerText = typeof producto[key] == "number" ?producto[key].toFixed(2): producto[key];
         tr.appendChild(td);
       }
       tabla.appendChild(tr);
@@ -288,8 +278,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     tabla.innerHTML = "";
     let clientesConCompras = await fetch(`${baseUrl}/clientes/reporte`);
     let clientesConComprasJson = await clientesConCompras.json();
-    console.log(clientesConComprasJson)
-  
+    // console.log(clientesConComprasJson)
     clientesConComprasJson.forEach((cliente) => {
       let tr = document.createElement("tr");
       for (const key in cliente) {
@@ -301,7 +290,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             tr.appendChild(td2);
           }
         } else {
-          td.innerText = cliente[key];
+          td.innerText = typeof cliente[key]=="number" ? cliente[key].toFixed(2): cliente[key] ;
           tr.appendChild(td);
         }
       }
@@ -320,7 +309,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       let tr = document.createElement("tr");
       for (const key in venta) {
         let td = document.createElement("td");
-        td.innerText = venta[key];
+        td.innerText = typeof  venta[key]== "number" ?venta[key].toFixed(2): venta[key];
         tr.appendChild(td);
       }
       tabla.appendChild(tr);
@@ -355,12 +344,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 //  console.log(tabContents[0])
   tabs.forEach(tab=>{
     tab.addEventListener('click',()=>{ 
+
       tabContents.forEach(tabContent=>{
-        
         tabContent.classList.remove('visible')
       })
+      
+
       const target=document.querySelector(tab.dataset.tabTarget)
       target.classList.add('visible');
+      // tab.classList.add('active');
     })
   })
 
@@ -427,7 +419,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let paginaProductoCompras=0;
 
   nextPcompras.addEventListener('click',(e)=>{
-    console.log(paginaProductoCompras)
+    // console.log(paginaProductoCompras)
     e.preventDefault();
 
     if(limitePaginadoProducto!=true){
@@ -467,6 +459,70 @@ document.addEventListener("DOMContentLoaded", async () => {
     return false
     ;
   }
+  function paginarCompras(pag){
+    if( getCompras(pag, 10)){
+      cargarTablaCompras()
+      return true
+    }
+    return false
+    ;
+  }
+  let nextCompras=document.getElementById("nextCompras")
+  let previousCompras=document.getElementById("previousCompras")
+  let paginaCompras=0;
   
+
+  nextCompras.addEventListener('click',(e)=>{
+    console.log(paginaCompras)
+    e.preventDefault();
+
+    if(limitePaginadoCompras!=true){
+      paginaCompras++
+      cargarTablaCompras(paginaCompras)
+       if(limitePaginadoCompras){
+        paginaCompras-1
+        console.log("aaaa")
+      }
+      console.log(paginaCompras)
+      }
+    
+  })
+
+  previousCompras.addEventListener('click',(e)=>{
+    e.preventDefault();
+    limitePaginadoProducto=false
+    if(paginaCompras>0){
+      paginaCompras--
+      cargarTablaCompras(paginaCompras)
+     
+      console.log(paginaProducto)
+    }
+  })
+
+  let cargarTablaCompras  = async (page)=>{
+    
+    COMPRAS=[]
+    // console.log(COMPRAS)
+    let tabla= document.querySelector(".tablaCompras")
+    // tabla.innerHTML=""
+    let strTabla=""
+    
+    await getCompras(page,10)
+ 
+    COMPRAS.forEach(p=>{
+      
+      strTabla+=`<tr>
+        <th scope="row">${p.id}</th>
+        <td>${p.cliente.nombre}-${p.cliente.apellido} </td>
+        <td>${p.fecha_compra}</td>
+        <td>${(p.montoTotal).toFixed(2)}</td>
+    
+      </tr>`
+    
+    })
+    tabla.innerHTML=strTabla;
+    
+}
+cargarTablaCompras(0)
   
 });
