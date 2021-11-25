@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Order;
  */
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-class ProductoTests {
+public class ProductoTests {
 
 	/** The producto service. */
 	@Autowired
