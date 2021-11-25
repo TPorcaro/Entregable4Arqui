@@ -28,16 +28,16 @@
                 <nav class="menu d-flex d-sm-block justify-content-center flex-wrap">
                     <ul>
                         
-                        <li data-tab-target="#clientesTab" >
+                        <li data-tab-target="#clientesTab" class="liMenu">
                             <a  href="#"> <i class="fa-home"></i><span>Clientes</span></a>
                         </li>
-                        <li data-tab-target="#productosTab">
+                        <li data-tab-target="#productosTab" class="liMenu">
                             <a href="#"> <i class="fa-home"></i><span>Productos</span></a>
                         </li>
-                        <li data-tab-target="#comprasTab">
+                        <li data-tab-target="#comprasTab" class="liMenu">
                           <a  href="#"> <i class="fa-home"></i><span>Compras</span></a>
                         </li>
-                        <li data-tab-target="#ventasTab">
+                        <li class="liMenu" data-tab-target="#ventasTab"  >
                           <a  href="#"> <i class="fa-home"></i><span>Ventas</span></a>
                         </li>
                     </ul>
@@ -256,9 +256,37 @@
                                     </ul>
                                   </nav>
                             </section>
+                            <h3>Todas las Compras</h1>
                             <section>
-                              <h1>Todas las Compras</h1>
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Cliente</th>
+                                  
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Total</th>
+                            
+                                  </tr>
+                                </thead>
+                                <tbody  class="tablaCompras">
+                                  
+                                </tbody>
+                              </table>
                             </section>
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination justify-content-center">
+                                <li class="page-item ">
+                                  <button type="button" class="page-link"  tabindex="-1" aria-disabled="true" id="previousCompras">Previous</button>
+                                </li>
+                                <div id="paginado">
+                                  
+                                </div>
+                                <li class="page-item">
+                                  <button type="button"class="page-link"  id="nextCompras">Next</button>
+                                </li>
+                              </ul>
+                            </nav>
                           
                         </div>
                         <div id="ventasTab" data-tab-content>

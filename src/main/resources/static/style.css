@@ -2,9 +2,11 @@ body{
     background: white;
   
 }
-/* li{
+li{
     list-style:none;
-} */
+    /* background-color: bisque; */
+}
+
 .barra{
     background:#00ADEF;
     padding-top:15px;
