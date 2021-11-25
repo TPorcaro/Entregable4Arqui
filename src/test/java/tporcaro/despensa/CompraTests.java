@@ -25,24 +25,41 @@ import tporcaro.despensa.services.CompraService;
 import tporcaro.despensa.services.PedidoService;
 import tporcaro.despensa.services.ProductoService;
 
+/**
+ * The Class CompraTests.
+ */
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 public class CompraTests {
 
+	/** The producto service. */
 	@Autowired
 	private ProductoService productoService;
+	
+	/** The compra service. */
 	@Autowired
 	private CompraService compraService;
+	
+	/** The pedido service. */
 	@Autowired
 	private PedidoService pedidoService;
+	
+	/** The cliente service. */
 	@Autowired
 	private ClienteService clienteService;
 	
+	/**
+	 * Test Gets Compra by ID.
+	 */
 	@Test
 	@Order(1)
 	void getCompraByID() {
 		Assertions.assertEquals(compraService.getById(152).get().getId(), 152);
 	}
+	
+	/**
+	 * Test Update Compra.
+	 */
 	@Test
 	@Order(2)
 	void updateCompra() {
@@ -54,6 +71,10 @@ public class CompraTests {
 		Assertions.assertEquals(compraService.updateCompra(compra), true);
 		Assertions.assertEquals(compraService.getById(160).get(), compra);
 	}
+	
+	/**
+	 * Test Get all Compra.
+	 */
 	@Test
 	@Order(3)
 	void getAll() {
@@ -64,12 +85,19 @@ public class CompraTests {
 		}
 	}
 	
+	/**
+	 * Test Delete Compra.
+	 */
 	@Test
 	@Order(4)
 	void deleteCompra() {
 		Compra aBorrarCompra = compraService.getById(152).get();
 		Assertions.assertEquals(compraService.removeCompra(aBorrarCompra), true);
 	}
+	
+	/**
+	 * Test Adds Compra.
+	 */
 	@Test
 	@Order(5)
 	void addCompra() {
@@ -90,6 +118,10 @@ public class CompraTests {
 		Assertions.assertEquals(compraService.addCompra(compra3), true);
 		Assertions.assertEquals(compraService.addCompra(compra4), false);
 	}
+	
+	/**
+	 * Test Reporte ventas.
+	 */
 	@Test
 	@Order(6)
 	void reporteVentas() {

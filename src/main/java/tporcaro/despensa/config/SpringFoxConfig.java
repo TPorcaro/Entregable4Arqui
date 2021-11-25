@@ -8,9 +8,17 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * The Class SpringFoxConfig.
+ */
 @Configuration
 public class SpringFoxConfig {
 
+	/**
+	 * Config swagger
+	 *
+	 * @return the docket
+	 */
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)

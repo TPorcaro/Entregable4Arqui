@@ -36,15 +36,28 @@ import tporcaro.despensa.services.CompraService;
 
 
 
+/**
+ * The Class CompraController.
+ */
 @RestController
 @RequestMapping("/compras")
 @Api(value = "CompraController", description = "Controlador REST de la Compra")
 public class CompraController {
 
+	/** The compra service. */
 	@Autowired
 	private CompraService compraService;
+	
+	/** The log. */
 	private static Logger LOG = LoggerFactory.getLogger(CompraController.class);
 	
+	/**
+	 * Gets all Compra.
+	 *
+	 * @param page the page
+	 * @param size the size
+	 * @return Paginado of Compra
+	 */
 	@ApiOperation(value = "Obtiene un paginado de compras", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -69,6 +82,12 @@ public class CompraController {
 		}
 	}
 	
+	/**
+	 * Gets a Compra.
+	 *
+	 * @param id the id
+	 * @return Compra
+	 */
 	@ApiOperation(value = "Obtiene una compra por su id", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -88,6 +107,13 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Adds a compra.
+	 *
+	 * @param c Compra
+	 * @return added Compra
+	 */
 	@ApiOperation(value = "Agrega una Compra", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -107,6 +133,13 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Update a Compra.
+	 *
+	 * @param c Compra
+	 * @return updated Compra
+	 */
 	@ApiOperation(value = "Actualiza una Compra", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -126,6 +159,13 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Delete a Compra.
+	 *
+	 * @param c Compra
+	 * @return deleted Compra
+	 */
 	@ApiOperation(value = "Borra una compra", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -145,6 +185,12 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Generar reporte ventas.
+	 *
+	 * @return list of Venta
+	 */
 	@ApiOperation(value = "Obtiene un reporte de ventas por dias", response = ResponseEntity.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
@@ -164,6 +210,13 @@ public class CompraController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * Gets the link of pedidos.
+	 *
+	 * @param c the c
+	 * @return the link
+	 */
 	private EntityModel<Compra> getEm(Compra c) {
 		EntityModel<Compra> em = EntityModel.of(c);
 		List<Link> links = c.getPedidos().
