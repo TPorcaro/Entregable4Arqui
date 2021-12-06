@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       // console.log(name)
       limitePaginadoCliente=false
-      let response = await fetch(`${baseUrl}/clientes?page=${page}&size=${size}`);
+      let response = await fetch(`/clientes?page=${page}&size=${size}`);
       // console.log("response", response);
       let json = await response.json();
       CLIENTESTOTALES = json.elements;
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       // console.log(name)
       limitePaginadoCliente=false
-      let response = await fetch(`${baseUrl}/clientes?page=${page}&size=${size}`);
+      let response = await fetch(`/clientes?page=${page}&size=${size}`);
       // console.log("response", response);
       let json = await response.json();
       CLIENTES = json.elements;
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const getProductos = async (page, size) => {
     try {
       limitePaginadoProducto=false
-      let response = await fetch(`${baseUrl}/productos?page=${page}&size=${size}`);
+      let response = await fetch(`/productos?page=${page}&size=${size}`);
       let responseJson = await response.json();
       PRODUCTOS = responseJson.elements;
       cargarProductos();
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const getCompras = async (page, size) => {
     try { 
       limitePaginadoCompras=false;
-      let response = await fetch(`${baseUrl}/compras?page=${page}&size=${size}`);
+      let response = await fetch(`/compras?page=${page}&size=${size}`);
       let json = await response.json();
       json.elements.forEach ( async p =>{   
           let compra = {
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       apellido: apellido
     };
     try {
-      let response = await fetch(`${baseUrl}/clientes`, {
+      let response = await fetch(`/clientes`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     console.log(producto);
     try {
-      let response = await fetch(`${baseUrl}/productos`, {
+      let response = await fetch(`/productos`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           cantidad: document.getElementById(`${v.id}`).value,
         };
         try {
-          let response = await fetch(`${baseUrl}/pedidos`, {
+          let response = await fetch(`/pedidos`, {
             method: "POST",
             headers: {
               Accept: "application/json",
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         fecha_compra: Date.now(),
         pedidos: arrayPedidos,
       };
-      fetch(`${baseUrl}/compras`, {
+      fetch(`/compras`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let reporteClienteConCompras = async () => {
     let tabla = document.getElementById("listaReporteCliente");
     tabla.innerHTML = "";
-    let clientesConCompras = await fetch(`${baseUrl}/clientes/reporte`);
+    let clientesConCompras = await fetch(`/clientes/reporte`);
     let clientesConComprasJson = await clientesConCompras.json();
     // console.log(clientesConComprasJson)
     clientesConComprasJson.forEach((cliente) => {
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let reporteVentasPorDia = async () => {
     let tabla = document.getElementById("listaReporteVentas");
     tabla.innerHTML = "";
-    let ventasPorDia = await fetch(`${baseUrl}/compras/reporte`);
+    let ventasPorDia = await fetch(`/compras/reporte`);
     let ventasPorDiaJson = await ventasPorDia.json();
   
     ventasPorDiaJson.forEach((venta) => {
